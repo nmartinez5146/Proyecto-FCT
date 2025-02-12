@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import ceu.proyecto.fct.model.PracticeRecord;
+import ceu.proyecto.fct.model.User;
+
 public interface ServiceRepository {
 
 	public User login(String username, String pass) throws UserException, WrongUserException, IncorrectDateException;
