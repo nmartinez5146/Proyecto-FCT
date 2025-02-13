@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import org.hibernate.annotations.JdbcTypeCode;
-import org.springframework.data.annotation.Id;
 
 import ceu.proyecto.fct.model.num.Evaluation;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
