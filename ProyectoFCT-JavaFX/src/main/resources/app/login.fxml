@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceu.dam.proyectofct.gui.LoginController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/ceuLogo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="360.0" layoutY="126.0" text="LOG IN">
+         <font>
+            <Font name="Arial Bold" size="52.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblUsername" layoutX="326.0" layoutY="210.0" text="Username">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfUsername" layoutX="326.0" layoutY="237.0" prefHeight="26.0" prefWidth="247.0" />
+      <Label fx:id="lblPass" layoutX="326.0" layoutY="310.0" text="Password">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="pfPass" layoutX="326.0" layoutY="336.0" prefHeight="26.0" prefWidth="247.0" />
+      <Button fx:id="btnLogin" layoutX="548.0" layoutY="402.0" mnemonicParsing="false" onAction="#login" text="Log In" />
+      <Button fx:id="btnExitApp" layoutX="279.0" layoutY="402.0" mnemonicParsing="false" onAction="#exitApp" text="Exit the App" />
+   </children>
+</AnchorPane>
