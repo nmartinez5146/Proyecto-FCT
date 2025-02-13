@@ -1,7 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ProyectoFCT-JavaFX</groupId>
-  <artifactId>ProyectoFCT-JavaFX</artifactId>
-  <version>0.0.1</version>
-  <name>ProyectoFCT-JavaFX</name>
+  <groupId>ceu.dam.proyectofct</groupId>
+  <artifactId>ProyectoFCT-JavaFx</artifactId>
+  <version>1.0.0</version>
+  <name>ProyectoFCT-JavaFx</name>
+  <dependencies>
+  	<dependency>
+		<groupId>org.openjfx</groupId>
+		<artifactId>javafx-controls</artifactId>
+		<version>23.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.openjfx</groupId>
+		<artifactId>javafx-fxml</artifactId>
+		<version>23.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.18.34</version>
+		<scope>provided</scope>
+	</dependency>
+  </dependencies>
 </project>

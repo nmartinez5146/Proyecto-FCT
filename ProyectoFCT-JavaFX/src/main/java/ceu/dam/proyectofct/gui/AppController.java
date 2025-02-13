@@ -1,6 +1,8 @@
 package ceu.dam.proyectofct.gui;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import ceu.dam.proyectofct.App;
 import javafx.fxml.FXMLLoader;
@@ -43,5 +45,23 @@ public class AppController {
 		catch(IOException e) {
 			throw new RuntimeException("Error cargando escena.", e);
 		}
+	}
+	
+	public void addParam(String key, Object param) {
+		Map<String, Object> mapa = (Map<String, Object>) primaryStage.getUserData();
+		if (mapa == null) {
+			mapa = new HashMap<String, Object>();
+			primaryStage.setUserData(mapa);
+		}
+		mapa.put(key, param);
+	}
+	
+	public Object getParam(String key) {
+		Map<String, Object> mapa = (Map<String, Object>) primaryStage.getUserData();
+		if (mapa == null) {
+	        mapa = new HashMap<>();  // Se inicializa si no existe
+	        primaryStage.setUserData(mapa);
+	    }
+		return mapa.get(key);
 	}
 }
