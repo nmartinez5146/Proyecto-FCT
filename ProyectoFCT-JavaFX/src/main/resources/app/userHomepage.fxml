@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceu.dam.proyectofct.gui.UserHomepageController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/ceuLogo.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblTitle" layoutX="51.0" layoutY="112.0" text="Welcome, {user.username}">
+         <font>
+            <Font name="Arial Bold" size="45.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="205.0" text="Full Name:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFullname" layoutX="168.0" layoutY="203.0" text="{user.Student.fullname}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="240.0" text="Course:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCourse" layoutX="144.0" layoutY="238.0" text="{user.Student.course}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="277.0" text="Evaluation:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEvaluation" layoutX="173.0" layoutY="275.0" text="{user.Student.evaluation}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="314.0" text="Course Year:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCourseYear" layoutX="188.0" layoutY="312.0" text="{user.Student.courseYear}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="350.0" text="Mentor:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMentorName" layoutX="148.0" layoutY="348.0" text="{user.Student.mentor.name}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="461.0" layoutY="205.0" text="Internship Company:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCompanyName" layoutX="642.0" layoutY="203.0" text="{userStudent.company.name}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="461.0" layoutY="240.0" text="Total hours: ">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotalH" layoutX="571.0" layoutY="238.0" text="{user.Student.record.allhours}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="461.0" layoutY="277.0" text="Hours Completed:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCompletedH" layoutX="618.0" layoutY="275.0" text="{user.Student.record.completedhours}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="461.0" layoutY="314.0" text="Pending hours:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPendingH" layoutX="593.0" layoutY="312.0" text="{user.Student.record.pendinghours}">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
