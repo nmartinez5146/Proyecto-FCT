@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class Student {
 	private UUID id;
-	@Size(max = 255)
+	@Size(max = 100)
     private String fullName;
     private Course course;
     private Evaluation evaluation;

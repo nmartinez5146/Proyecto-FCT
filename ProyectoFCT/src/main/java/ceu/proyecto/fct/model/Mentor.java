@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class Mentor {
 	private UUID id;
-	@Size(max = 255)
+	@Size(max = 100)
 	private String fullName;
     private boolean active;
 	
