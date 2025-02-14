@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.Valid;
 import lombok.Data;
 
 @Data
@@ -26,6 +27,7 @@ public class PracticeRecord {
 	@JoinColumn(name = "id_student")
 	private Student associatedStudent;
 	
+	@Valid
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_date")
 	private Date associatedDate;
