@@ -2,10 +2,19 @@ package ceu.proyecto.fct.model;
 
 import java.util.UUID;
 
-import lombok.Data;
+import org.hibernate.annotations.JdbcTypeCode;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Data;
+@Entity
 @Data
 public class Company {
+	
+	@Id
+	@GeneratedValue
+	@JdbcTypeCode(java.sql.Types.VARCHAR)
 	private UUID id;
     private String name;
     private String mentorName;

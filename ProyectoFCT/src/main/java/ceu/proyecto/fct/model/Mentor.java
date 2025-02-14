@@ -1,14 +1,27 @@
 package ceu.proyecto.fct.model;
 
+
+
 import java.util.UUID;
 
+import org.hibernate.annotations.JdbcTypeCode;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-public class Mentor {
-	private UUID id;
+@Entity
+public class Mentor{
 
-	private String fullName;
+	@Id
+    @GeneratedValue
+    @JdbcTypeCode(java.sql.Types.VARCHAR)
+    private UUID id;
+
+    private String fullName;
+	
     private boolean active;
 	
 }
