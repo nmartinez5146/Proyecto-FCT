@@ -5,8 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceu.dam.proyectofct.gui.MenuController">
+<BorderPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceu.dam.proyectofct.gui.MenuController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -16,6 +15,7 @@
               <MenuItem mnemonicParsing="false" onAction="#seeRecords" text="See Records" />
                   <MenuItem mnemonicParsing="false" onAction="#changePass" text="Change Password" />
                   <MenuItem mnemonicParsing="false" onAction="#logout" text="Log out" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitApp" text="Exit the App" />
             </items>
           </Menu>
         </menus>

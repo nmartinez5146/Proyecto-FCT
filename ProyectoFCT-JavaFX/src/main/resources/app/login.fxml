@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceu.dam.proyectofct.gui.LoginController">
    <children>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -36,5 +35,10 @@
       <PasswordField fx:id="pfPass" layoutX="326.0" layoutY="336.0" prefHeight="26.0" prefWidth="247.0" />
       <Button fx:id="btnLogin" layoutX="548.0" layoutY="402.0" mnemonicParsing="false" onAction="#login" text="Log In" />
       <Button fx:id="btnExitApp" layoutX="279.0" layoutY="402.0" mnemonicParsing="false" onAction="#exitApp" text="Exit the App" />
+      <Label fx:id="lblErrorMessage" alignment="TOP_LEFT" layoutX="272.0" layoutY="446.0" prefHeight="103.0" prefWidth="355.0" textFill="RED" wrapText="true">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -19,6 +19,9 @@ public class AppController {
 	public static final String FXML_LOGIN = "/app/login.fxml";
 	public static final String FXML_CHNGPASS = "/app/changePass.fxml";
 	public static final String FXML_USERHOME = "/app/userHomepage.fxml";
+	public static final String FXML_RECORDS = "/app/recordsManage.fxml";
+	public static final String FXML_NEWRECORD = "/app/newRecords.fxml";
+	public static final String FXML_MENU = "/app/menu.fxml";
 	
 	private static Stage primaryStage;
 
