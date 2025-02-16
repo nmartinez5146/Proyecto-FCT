@@ -3,17 +3,25 @@ package ceu.dam.proyectofct.gui;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import ceu.dam.proyectofct.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class AppController {
 	
 	public static final String FXML_LOGIN = "/app/login.fxml";
 	public static final String FXML_CHNGPASS = "/app/changePass.fxml";
+	public static final String FXML_USERHOME = "/app/userHomepage.fxml";
+	public static final String FXML_RECORDS = "/app/recordsManage.fxml";
+	public static final String FXML_NEWRECORD = "/app/newRecords.fxml";
+	public static final String FXML_MENU = "/app/menu.fxml";
 	
 	private static Stage primaryStage;
 
@@ -36,7 +44,7 @@ public class AppController {
 		}
 	}
 
-	public Parent loadScene(String fxml) {
+	public static Parent loadScene(String fxml) {
 		try {
 			FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml));
 			Scene scene = new Scene(loader.load());
@@ -64,4 +72,21 @@ public class AppController {
 	    }
 		return mapa.get(key);
 	}
+	
+	public static void exitApplication() {
+        System.out.println("Exit the application");
+        
+        // Create confirmation alert
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Exit the aplication");
+        alert.setHeaderText("Are you sure you want to exit the application?");
+        alert.setContentText("The application will close.");
+
+        // Show and wait the user awnser
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.exit(0); // Exit the app
+        }
+    }
 }
