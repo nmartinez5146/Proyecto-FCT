@@ -42,7 +42,7 @@
             <ToggleGroup fx:id="dates" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="rbCDates" layoutX="45.0" layoutY="227.0" mnemonicParsing="false" text="Completed. Dates" toggleGroup="$dates" />
+      <RadioButton fx:id="rbCDates" layoutX="45.0" layoutY="227.0" mnemonicParsing="false" text="Completed Dates" toggleGroup="$dates" />
       <RadioButton fx:id="rbNCDates" layoutX="45.0" layoutY="255.0" mnemonicParsing="false" text="Not Completed Dates" toggleGroup="$dates" />
       <DatePicker fx:id="dpFrom" layoutX="32.0" layoutY="302.0" prefHeight="26.0" prefWidth="137.0" promptText="dd/MM/yyyy" />
       <Label layoutX="34.0" layoutY="282.0" text="From:" />

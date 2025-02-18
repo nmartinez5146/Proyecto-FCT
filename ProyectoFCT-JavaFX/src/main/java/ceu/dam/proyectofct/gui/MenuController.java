@@ -27,7 +27,7 @@ public class MenuController extends AppController{
 
     @FXML
     void logout(ActionEvent event) {
-    	panel.setCenter(loadScene(FXML_LOGIN));
+    	changeScene(FXML_LOGIN);
     }
 
     @FXML

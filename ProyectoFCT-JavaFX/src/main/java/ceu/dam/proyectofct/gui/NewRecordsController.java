@@ -3,6 +3,8 @@ package ceu.dam.proyectofct.gui;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import ceu.dam.proyectofct.apiclient.ApiClient;
+import ceu.dam.proyectofct.apiclient.model.PracticeRecord;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -73,6 +75,8 @@ public class NewRecordsController extends AppController {
 
     @FXML
     void saveRecord(ActionEvent event) {
+    	ApiClient apiClient = new ApiClient();
+    	
     	LocalDate selectedDate = dpDate.getValue();
     	String hoursText = tfNumHours.getText().trim();
     	String description = taDescription.getText().trim();
@@ -92,6 +96,16 @@ public class NewRecordsController extends AppController {
     		showErrorMessage("Description must be at least 20 characters long.");
     		return;
     	}
+    	
+    	int hours = Integer.parseInt(hoursText);
+    	PracticeRecord record = new PracticeRecord(AppController.getLoggedUser(), selectedDate, hours, description);
+    	
+    	try {
+    		apiClient.createRecord(record);
+    		showSuccessMessage("The record has been created successfully.");
+    	} catch (Exception e) {
+			showErrorMessage("Error saving record: " + e.getMessage());
+		}
     	
     	MenuController menuRecords = (MenuController) changeScene(FXML_MENU);
     	menuRecords.seeRecords(null);
@@ -118,5 +132,14 @@ public class NewRecordsController extends AppController {
     		System.out.println("Error: " + message);
     	}
     }
+    
+    private void showSuccessMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null); // Sin cabecera para que el mensaje sea más limpio
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
 }
