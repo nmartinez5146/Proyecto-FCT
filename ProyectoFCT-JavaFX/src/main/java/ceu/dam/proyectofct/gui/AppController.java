@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import ceu.dam.proyectofct.App;
+import ceu.dam.proyectofct.apiclient.model.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +25,7 @@ public class AppController {
 	public static final String FXML_MENU = "/app/menu.fxml";
 	
 	private static Stage primaryStage;
+	private static User loggedUser;
 
 	public AppController() {
 	}
@@ -72,6 +74,26 @@ public class AppController {
 	    }
 		return mapa.get(key);
 	}
+	
+	// Guardar usuario logueado
+    public static void setLoggedUser(User user) {
+        loggedUser = user;
+    }
+
+    // Obtener usuario logueado
+    public static User getLoggedUser() {
+        return loggedUser;
+    }
+
+    // Comprobar si el usuario es estudiante basado en su perfil
+    public static boolean isStudent() {
+        return loggedUser != null && "STUDENT".equals(loggedUser.getProfile());
+    }
+
+    // Comprobar si el usuario es mentor basado en su perfil
+    public static boolean isMentor() {
+        return loggedUser != null && "MENTOR".equals(loggedUser.getProfile());
+    }
 	
 	public static void exitApplication() {
         System.out.println("Exit the application");

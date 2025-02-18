@@ -14,7 +14,7 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		AppController appController = new AppController(primaryStage);
-		appController.changeScene(AppController.FXML_LOGIN);
+		appController.changeScene(AppController.FXML_MENU);
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("Records App");
 		primaryStage.initStyle(StageStyle.UNDECORATED);

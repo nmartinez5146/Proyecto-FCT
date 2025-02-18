@@ -1,5 +1,7 @@
 package ceu.dam.proyectofct.gui;
 
+import ceu.dam.proyectofct.apiclient.ApiClient;
+import ceu.dam.proyectofct.apiclient.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,6 +39,8 @@ public class LoginController extends AppController {
 
     @FXML
     void login(ActionEvent event) {
+    	ApiClient apiClient = new ApiClient();
+    	
     	String username = tfUsername.getText().trim();
     	String password = pfPass.getText().trim();
     	
@@ -51,8 +55,27 @@ public class LoginController extends AppController {
     		return;
     	}
     	
-    	// Cambiar pantalla a home
-    	changeScene(FXML_MENU);
+    	try {
+			User user = apiClient.login(username, password);
+			if (user != null) {
+				AppController.setLoggedUser(user);
+				System.out.println("Login successful: " + user.getUsername() + " | Role:" + user.getProfile());
+				
+				if (AppController.isStudent()) {
+					addParam("loggedUser", user);
+			    	changeScene(FXML_MENU);
+				} else if(AppController.isMentor()) {
+					// TODO: Implementar pagina ADMIN
+				} else {
+					showErrorMessage("Uknown user role.");
+				}
+			} else {
+				showErrorMessage("Invalid username or password.");
+			}
+    	} catch (Exception e) {
+    		showErrorMessage("Login error. " + e.getMessage());
+			System.out.println("Login error: " + e.getMessage());
+		}
     }
     
     private boolean isValidUsername(String username) {
