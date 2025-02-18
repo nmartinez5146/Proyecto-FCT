@@ -20,7 +20,7 @@ import ceu.proyecto.fct.api.request.ChangePassRequest;
 import ceu.proyecto.fct.model.PracticeRecord;
 import ceu.proyecto.fct.model.User;
 import ceu.proyecto.fct.service.IncorrectDateException;
-import ceu.proyecto.fct.service.ServiceRepository;
+import ceu.proyecto.fct.service.ServiceImp;
 import ceu.proyecto.fct.service.UserException;
 import ceu.proyecto.fct.service.WrongUserException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ import jakarta.validation.Valid;
 public class UserApiService {
 
 	@Autowired
-	private ServiceRepository service; /////// Cambiar por el service
+	private ServiceImp service; /////// Cambiar por el service
 
 	@GetMapping
 	@Operation(summary = "Login", description = "Logs in a user using their username and password.")
