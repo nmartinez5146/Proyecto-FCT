@@ -3,47 +3,44 @@ package ceu.dam.proyectofct.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 public class MenuController extends AppController{
 
 	@FXML
 	private BorderPane panel;
 	
-	private static BorderPane sharedPanel;
-	
 	public void initialize() {
-		sharedPanel = panel;
-		panel.setCenter(loadScene(FXML_USERHOME));
-	}
-	
-	public static void loadPage(String fxmlPath) {
-		sharedPanel.setCenter(loadScene(fxmlPath));
 	}
 	
     @FXML
     void changePass(ActionEvent event) {
-    	panel.setCenter(loadScene(FXML_CHNGPASS));
+    	loadSceneInto(FXML_CHNGPASS);
     }
 
     @FXML
     void logout(ActionEvent event) {
-    	changeScene(FXML_LOGIN);
+    	loadSceneInto(FXML_LOGIN);
     }
 
     @FXML
     void seeRecords(ActionEvent event) {
-    	panel.setCenter(loadScene(FXML_RECORDS));
-    	
+    	loadSceneInto(FXML_RECORDS);
     }
     
     @FXML
     void homePage(ActionEvent event) {
-    	panel.setCenter(loadScene(FXML_USERHOME));
+    	loadSceneInto(FXML_USERHOME);
     }
     
     @FXML
     void exitApp(ActionEvent event) {
     	AppController.exitApplication();
+    }
+    
+    public void loadSceneInto(String fxml) {
+    	panel.setCenter(new Pane());
+    	panel.setCenter(loadScene(fxml));
     }
 
 }
