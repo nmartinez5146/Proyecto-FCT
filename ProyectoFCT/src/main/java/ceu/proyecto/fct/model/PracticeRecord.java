@@ -23,12 +23,12 @@ public class PracticeRecord {
 	@JdbcTypeCode(java.sql.Types.VARCHAR)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_student")
 	private Student associatedStudent;
 
 	@Valid
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_date")
 	private Date associatedDate;
 

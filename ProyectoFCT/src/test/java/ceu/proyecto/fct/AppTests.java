@@ -211,7 +211,7 @@ class AppTests {
 	@Test
 	@Order(11)
 	void showUserSuccess() throws UserException, WrongUserException {
-		User retrievedUser = userService.showUser(testUser);
+		User retrievedUser = userService.showUser(testUser.getId());
 
 		assertNotNull(retrievedUser);
 		assertEquals(testUser.getUsername(), retrievedUser.getUsername());

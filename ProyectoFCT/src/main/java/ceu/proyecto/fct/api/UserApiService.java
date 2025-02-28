@@ -49,10 +49,10 @@ public class UserApiService {
 		return service.changePasword(request.getNewPass(), request.getUser());
 	}
 
-	@GetMapping("/data")
+	@GetMapping("/data/{userId}")
 	@Operation(summary = "Show full user", description = "Displays a user with all associated entities.")
-	public User showUser(@RequestParam User user) throws UserException, WrongUserException {
-		return service.showUser(user);
+	public User showUser(@PathVariable UUID userId) throws UserException, WrongUserException {
+		return service.showUser(userId);
 	}
 
 	@GetMapping("/PracticeRecord")

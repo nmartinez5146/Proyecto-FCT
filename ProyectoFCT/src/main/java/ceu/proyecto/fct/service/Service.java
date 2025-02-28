@@ -14,7 +14,7 @@ public interface Service {
 	public User changePasword(String newPass, User user)
 			throws UserException, WrongUserException, IncorrectDataException;
 
-	public User showUser(User user) throws UserException, WrongUserException;
+	public User showUser(UUID userId) throws UserException, WrongUserException;
 
 	public List<PracticeRecord> consultAllRecords(User user, LocalDate date1, LocalDate date2, String stateDate)
 			throws UserException, WrongUserException;

@@ -7,6 +7,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -22,9 +24,13 @@ public class Company {
 	private String name;
 	@Size(max = 100)
 	private String mentorName;
+	
 	@Size(max = 100)
+	@Email
 	private String mentorEmail;
+	
 	@Size(max = 9)
+	@Pattern(regexp = "^[0-9]*$", message = "El teléfono solo puede contener números")
 	private String mentorPhone;
 	private boolean active;
 
