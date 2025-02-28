@@ -4,33 +4,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class IncorrectDateException extends Exception {
+public class IncorrectDataException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4200403395223902741L;
 
-	public IncorrectDateException() {
+	public IncorrectDataException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public IncorrectDateException(String message) {
+	public IncorrectDataException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public IncorrectDateException(Throwable cause) {
+	public IncorrectDataException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public IncorrectDateException(String message, Throwable cause) {
+	public IncorrectDataException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public IncorrectDateException(String message, Throwable cause, boolean enableSuppression,
+	public IncorrectDataException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub

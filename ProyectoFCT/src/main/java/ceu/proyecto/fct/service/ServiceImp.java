@@ -13,11 +13,7 @@ import org.springframework.dao.DataAccessException;
 
 import ceu.proyecto.fct.model.PracticeRecord;
 import ceu.proyecto.fct.model.User;
-import ceu.proyecto.fct.repository.CompanyRepository;
-import ceu.proyecto.fct.repository.DateRepository;
-import ceu.proyecto.fct.repository.MentorRepository;
 import ceu.proyecto.fct.repository.PracticeRecordRepository;
-import ceu.proyecto.fct.repository.StudentRepository;
 import ceu.proyecto.fct.repository.UserRepository;
 
 @org.springframework.stereotype.Service
@@ -29,186 +25,169 @@ public class ServiceImp implements Service {
 	private UserRepository userRepository;
 
 	@Autowired
-	private StudentRepository studentRepository;
-
-	@Autowired
-	private MentorRepository mentorRepository;
-
-	@Autowired
-	private DateRepository dateRepository;
-
-	@Autowired
-	private PracticeRecordRepository pRRepository;
-
-	@Autowired
-	private CompanyRepository companyRepository;
+	private PracticeRecordRepository recordRepository;
 
 	@Override
-	public User login(String username, String pass) throws UserException, WrongUserException, IncorrectDateException {
+	public User login(String username, String pass) throws UserException, WrongUserException, IncorrectDataException {
 		try {
-			
-		
-		log.info("Attempting login for username: {}", username);
-		User user = userRepository.findByUsername(username);
-		if (user == null) {
-			log.error("User not found");
-			throw new WrongUserException("User not found.");
-		}
 
-		if (user.getIdStudent() == null) {
-			log.error("User is not associated with a student");
-			throw new WrongUserException("User is not associated with a student.");
-		}
+			log.info("Attempting login for username: {}", username);
+			User user = userRepository.findByUsername(username);
+			if (user == null) {
+				log.error("User not found");
+				throw new WrongUserException("User not found.");
+			}
 
-		if (!user.isActive()) {
-			log.error("User is not active");
-			throw new WrongUserException("User is not active.");
-		}
+			if (user.getIdStudent() == null) {
+				log.error("User is not associated with a student");
+				throw new WrongUserException("User is not associated with a student.");
+			}
 
-		String passwordCifrada = DigestUtils.sha256Hex(pass);
-		if (!passwordCifrada.equals(user.getPass())) {
-			log.error("Incorrect password");
-			throw new IncorrectDateException("Incorrect password.");
-		}
+			if (!user.isActive()) {
+				log.error("User is not active");
+				throw new WrongUserException("User is not active.");
+			}
 
-		log.info("Login successful for user: {}", username);
-		return user;
+			String passwordCifrada = DigestUtils.sha256Hex(pass);
+			if (!passwordCifrada.equals(user.getPass())) {
+				log.error("Incorrect password");
+				throw new IncorrectDataException("Incorrect password.");
+			}
+
+			log.info("Login successful for user: {}", username);
+			return user;
 		} catch (DataAccessException e) {
 			log.error("Data Base Error");
-			throw new UserException("Data Base Error");
+			throw new UserException("Data Base Error", e);
 		}
 	}
 
 	@Override
-	public User changePasword(String newPass, User user) throws UserException {
+	public User changePasword(String newPass, User user)
+			throws UserException, WrongUserException, IncorrectDataException {
 		try {
-			
-		
-		log.info("Changing password for user: {}", user);
 
-		if (user == null) {
-			log.error("User not found");
-			throw new UserException("User not found.");
-		}
+			log.info("Changing password for user: {}", user);
 
-		if (newPass == null || newPass.trim().isEmpty()) {
-			log.error("New password cannot be empty");
-			throw new UserException("New password cannot be empty.");
-		}
-		user.setPass(newPass);
-		log.info("Password changed successfully for user: {}", user);
-		return user;
+			if (user == null) {
+				log.error("User not found");
+				throw new WrongUserException("User not found.");
+			}
+
+			if (newPass == null || newPass.trim().isEmpty()) {
+				log.error("New password cannot be empty");
+				throw new IncorrectDataException("New password cannot be empty.");
+			}
+
+			if (newPass.equals(user.getPass())) {
+				log.error("New password cannot be the same as the last pass");
+				throw new IncorrectDataException("New password cannot be the same as the last pass");
+			}
+
+			user.setPass(newPass);
+			log.info("Password changed successfully for user: {}", user);
+			return user;
 		} catch (DataAccessException e) {
 			log.error("Data Base Error");
-			throw new UserException("Data Base Error");
+			throw new UserException("Data Base Error", e);
 		}
 	}
 
 	@Override
-	public User showUser(User user) throws UserException {
+	public User showUser(User user) throws UserException, WrongUserException {
 		try {
-			
-		
-		if (user == null) {
-			log.error("User not found");
-			throw new UserException("User not found.");
-		}
-		log.info("Showing user details: {}", user);
-		return user;
+			if (user == null) {
+				log.error("User not found");
+				throw new WrongUserException("User not found.");
+			}
+			log.info("Showing user details: {}", user);
+			return user;
 		} catch (DataAccessException e) {
 			log.error("Data Base Error");
-			throw new UserException("Data Base Error");
+			throw new UserException("Data Base Error", e);
 		}
 	}
 
 	@Override
-	public List<PracticeRecord> consultAllRecords(User user, LocalDate date1, LocalDate date2, String stateDate) throws UserException {
+	public List<PracticeRecord> consultAllRecords(User user, LocalDate date1, LocalDate date2, String stateDate)
+			throws UserException, WrongUserException {
 		try {
-			
-		
-	    log.info("Consulting all records for user: {}", user);
+			log.info("Consulting all records for user: {}", user);
 
-	    if (user == null) {
-	        log.error("User not found");
-	        throw new UserException("User not found.");
-	    }
+			if (user == null) {
+				log.error("User not found");
+				throw new WrongUserException("User not found.");
+			}
 
-	    UUID studentId = user.getIdStudent().getId();
-	    if (studentId == null) {
-	        log.error("User has no associated student ID");
-	        throw new UserException("User has no associated student ID.");
-	    }
+			UUID studentId = user.getIdStudent().getId();
+			if (studentId == null) {
+				log.error("User has no associated student ID");
+				throw new UserException("User has no associated student ID.");
+			}
 
-	    log.info("Fetching records for student ID: {}", studentId);
+			log.info("Fetching records for student ID: {}", studentId);
 
-	    List<PracticeRecord> allRecords = pRRepository.findByAssociatedStudent_Id(studentId);
+			List<PracticeRecord> allRecords = recordRepository.findByAssociatedStudent_Id(studentId);
 
-	    List<PracticeRecord> filteredRecords = allRecords.stream()
-	        .filter(record -> {
-	            LocalDate recordDate = record.getAssociatedDate().getDate();
-	            return (date1 == null || !recordDate.isBefore(date1)) &&
-	                   (date2 == null || !recordDate.isAfter(date2));
-	        })
-	        .map(record -> {
-	            PracticeRecord truncatedRecord = new PracticeRecord();
-	            truncatedRecord.setAssociatedDate(record.getAssociatedDate());
-	            truncatedRecord.setHours(record.getHours());
-	            truncatedRecord.setDescription(record.getDescription().length() > 20 ?
-	                record.getDescription().substring(0, 20) + "..." : record.getDescription());
-	            return truncatedRecord;
-	        })
-	        .collect(Collectors.toList());
+			List<PracticeRecord> filteredRecords = allRecords.stream().filter(record -> {
+				LocalDate recordDate = record.getAssociatedDate().getDate();
+				return (date1 == null || !recordDate.isBefore(date1)) && (date2 == null || !recordDate.isAfter(date2));
+			}).map(record -> {
+				PracticeRecord fullRecord = new PracticeRecord();
+				fullRecord.setAssociatedDate(record.getAssociatedDate());
+				fullRecord.setHours(record.getHours());
+				fullRecord.setDescription(record.getDescription());
+				return fullRecord;
+			}).collect(Collectors.toList());
 
-	    return filteredRecords;
+			return filteredRecords;
 		} catch (DataAccessException e) {
 			log.error("Data Base Error");
-			throw new UserException("Data Base Error");
+			throw new UserException("Data Base Error", e);
 		}
 	}
 
 	@Override
-	public void deleteRecord(UUID idRecord) throws UserException {
+	public void deleteRecord(UUID idRecord) throws UserException, IncorrectDataException {
 		try {
-			
-		
-		log.info("Deleting record with ID: {}", idRecord);
 
-		if (idRecord == null) {
-			log.error("Record ID cannot be null");
-			throw new UserException("Record ID cannot be null.");
-		}
-		if (!pRRepository.existsById(idRecord)) {
-			log.error("Record not found");
-			throw new UserException("Record not found.");
-		}
-		pRRepository.deleteById(idRecord);
-		log.info("Record deleted successfully");
+			log.info("Deleting record with ID: {}", idRecord);
+
+			if (idRecord == null) {
+				log.error("Record ID cannot be null");
+				throw new IncorrectDataException("Record ID cannot be null.");
+			}
+			if (!recordRepository.existsById(idRecord)) {
+				log.error("Record not found");
+				throw new IncorrectDataException("Record not found.");
+			}
+			recordRepository.deleteById(idRecord);
+			log.info("Record deleted successfully");
 		} catch (DataAccessException e) {
 			log.error("Data Base Error");
-			throw new UserException("Data Base Error");
+			throw new UserException("Data Base Error", e);
 		}
 	}
 
 	@Override
-	public void createRecord(PracticeRecord record) throws UserException {
+	public void createRecord(PracticeRecord record) throws UserException, IncorrectDataException {
 		try {
-			
-		
-		log.info("Creating new record: {}", record);
 
-		if (record == null) {
-			log.error("Record cannot be null");
-			throw new UserException("Record cannot be null.");
-		}
-		if (record.getAssociatedStudent() == null || record.getAssociatedDate() == null) {
-			log.error("Record must be associated with a student and a date");
-			throw new UserException("Record must be associated with a student and a date.");
-		}
-		pRRepository.save(record);
-		log.info("Record created successfully");
+			log.info("Creating new record: {}", record);
+
+			if (record == null) {
+				log.error("Record cannot be null");
+				throw new IncorrectDataException("Record cannot be null.");
+			}
+			if (record.getAssociatedStudent() == null || record.getAssociatedDate() == null) {
+				log.error("Record must be associated with a student and a date");
+				throw new IncorrectDataException("Record must be associated with a student and a date.");
+			}
+			recordRepository.save(record);
+			log.info("Record created successfully");
 		} catch (DataAccessException e) {
 			log.error("Data Base Error");
-			throw new UserException("Data Base Error");
+			throw new UserException("Data Base Error", e);
 		}
 	}
 }
