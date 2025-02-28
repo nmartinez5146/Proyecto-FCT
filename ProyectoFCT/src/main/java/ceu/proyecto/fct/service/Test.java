@@ -75,7 +75,6 @@ public class Test {
 		student = studentRepository.save(student);
 
 		user.setIdStudent(student);
-		user.setIdMentor(mentor);
 
 		userRepository.save(user);
 
