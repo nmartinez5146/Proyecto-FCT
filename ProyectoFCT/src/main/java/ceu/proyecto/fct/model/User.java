@@ -31,11 +31,11 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Perfil profile;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_student")
 	private Student idStudent;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_mentor")
 	private Mentor idMentor;
 

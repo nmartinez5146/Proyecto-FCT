@@ -13,6 +13,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -23,10 +24,16 @@ public class Date {
 	@GeneratedValue
 	@JdbcTypeCode(java.sql.Types.VARCHAR)
 	private UUID id;
+	
+	@NotNull(message = "La fecha no puede ser nula")
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate date;
+	
+	@NotNull(message = "El año del curso no puede ser nulo")
 	private int courseYear;
+	
 	@Enumerated(EnumType.STRING)
+	@NotNull(message = "La evaluación no puede ser nula")
 	private Evaluation evaluation;
 
 	public UUID getId() {

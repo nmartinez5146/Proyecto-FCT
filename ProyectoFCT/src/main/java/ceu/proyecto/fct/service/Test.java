@@ -47,7 +47,7 @@ public class Test {
 
 		User user = new User();
 		user.setUsername("Quichan");
-		String passwordCifrada = DigestUtils.sha256Hex("Quichan");
+		String passwordCifrada = "Quichan";
 		user.setPass(passwordCifrada);
 		user.setProfile(Perfil.STUDENT);
 		user.setActive(true);

@@ -2,6 +2,7 @@ package ceu.proyecto.fct.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -94,18 +95,25 @@ public class ServiceImp implements Service {
 	}
 
 	@Override
-	public User showUser(User user) throws UserException, WrongUserException {
-		try {
-			if (user == null) {
-				log.error("User not found");
-				throw new WrongUserException("User not found.");
-			}
-			log.info("Showing user details: {}", user);
-			return user;
-		} catch (DataAccessException e) {
-			log.error("Data Base Error");
-			throw new UserException("Data Base Error", e);
-		}
+	public User showUser(UUID userID) throws UserException, WrongUserException {
+	    try {
+	        // Buscar el usuario por ID
+	        Optional<User> userOptional = userRepository.findById(userID);
+
+	        // Verificar si el usuario existe
+	        if (userOptional.isEmpty()) {
+	            log.error("User not found with ID: {}", userID);
+	            throw new WrongUserException("User not found.");
+	        }
+
+	        // Obtener el usuario del Optional
+	        User user = userOptional.get();
+	        log.info("Showing user details: {}", user);
+	        return user;
+	    } catch (DataAccessException e) {
+	        log.error("Database error while fetching user with ID: {}", userID, e);
+	        throw new UserException("Database error", e);
+	    }
 	}
 
 	@Override
