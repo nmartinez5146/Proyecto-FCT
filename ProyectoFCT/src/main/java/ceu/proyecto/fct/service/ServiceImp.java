@@ -49,8 +49,7 @@ public class ServiceImp implements Service {
 				throw new WrongUserException("User is not active.");
 			}
 
-			String passwordCifrada = DigestUtils.sha256Hex(pass);
-			if (!passwordCifrada.equals(user.getPass())) {
+			if (!pass.equals(user.getPass())) {
 				log.error("Incorrect password");
 				throw new IncorrectDataException("Incorrect password.");
 			}
@@ -58,7 +57,7 @@ public class ServiceImp implements Service {
 			log.info("Login successful for user: {}", username);
 			return user;
 		} catch (DataAccessException e) {
-			log.error("Data Base Error");
+			log.error("Data Base Error", e);
 			throw new UserException("Data Base Error", e);
 		}
 	}

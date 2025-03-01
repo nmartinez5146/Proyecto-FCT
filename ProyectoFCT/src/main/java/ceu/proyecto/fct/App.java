@@ -11,8 +11,8 @@ public class App {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
-		//Test test = context.getBean(Test.class);
-		//test.createFakeUser();
+//		Test test = context.getBean(Test.class);
+//		test.createFakeUser();
 
 	}
 
