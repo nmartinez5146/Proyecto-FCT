@@ -42,13 +42,13 @@ public class NewRecordsController extends AppController {
 
     @FXML
     private TextField tfNumHours;
-    
+
     @FXML
     private Label lblErrorMessage;
 
     @FXML
     void goBack(MouseEvent event) {
-    	LocalDate selectedDate = dpDate.getValue();
+        LocalDate selectedDate = dpDate.getValue();
         String hoursText = tfNumHours.getText().trim();
         String description = taDescription.getText().trim();
 
@@ -75,64 +75,65 @@ public class NewRecordsController extends AppController {
 
     @FXML
     void saveRecord(ActionEvent event) {
-    	ApiClient apiClient = new ApiClient();
-    	
-    	LocalDate selectedDate = dpDate.getValue();
-    	String hoursText = tfNumHours.getText().trim();
-    	String description = taDescription.getText().trim();
-    	
-    	// Validaciones
-    	if (!isValidDate(selectedDate)) {
-    		showErrorMessage("Invalid date. You can only select today or past dates.");
-    		return;
-    	}
-    	
-    	if (!isValidHours(hoursText)) {
-    		showErrorMessage("Invalid hours. Enter a number between 0 and 24");
-    		return;
-    	}
-    	
-    	if (!isValidDescription(description)) {
-    		showErrorMessage("Description must be at least 20 characters long.");
-    		return;
-    	}
-    	
-    	int hours = Integer.parseInt(hoursText);
-    	PracticeRecord record = new PracticeRecord(AppController.getLoggedUser(), selectedDate, hours, description);
-    	
-    	try {
-    		apiClient.createRecord(record);
-    		showSuccessMessage("The record has been created successfully.");
-    	} catch (Exception e) {
-			showErrorMessage("Error saving record: " + e.getMessage());
-		}
-    	
-    	MenuController menuRecords = (MenuController) changeScene(FXML_MENU);
-    	menuRecords.seeRecords(null);
+        ApiClient apiClient = new ApiClient();
+
+        LocalDate selectedDate = dpDate.getValue();
+        String hoursText = tfNumHours.getText().trim();
+        String description = taDescription.getText().trim();
+
+        // Validaciones
+        if (!isValidDate(selectedDate)) {
+            showErrorMessage("Invalid date. You can only select today or past dates.");
+            return;
+        }
+
+        if (!isValidHours(hoursText)) {
+            showErrorMessage("Invalid hours. Enter a number between 0 and 24");
+            return;
+        }
+
+        if (!isValidDescription(description)) {
+            showErrorMessage("Description must be at least 20 characters long.");
+            return;
+        }
+
+        int hours = Integer.parseInt(hoursText);
+        PracticeRecord record = new PracticeRecord(AppController.getLoggedUser(), selectedDate, hours, description);
+
+        try {
+            apiClient.createRecord(record);
+            showSuccessMessage("The record has been created successfully.");
+        } catch (Exception e) {
+            showErrorMessage("Error saving record: " + e.getMessage());
+        }
+
+        MenuController menuRecords = (MenuController) changeScene(FXML_MENU);
+        menuRecords.seeRecords(null);
     }
-    
+
     private boolean isValidDate(LocalDate date) {
-    	return date != null && !date.isAfter(LocalDate.now());
+        return date != null && !date.isAfter(LocalDate.now());
     }
-    
+
     private boolean isValidHours(String hoursText) {
-    	if (hoursText.isEmpty() || !hoursText.matches("\\d+(\\.\\d+)?")) return false;
-    	double hours = Double.parseDouble(hoursText);
-    	return hours > 0 && hours <= 24;
+        if (hoursText.isEmpty() || !hoursText.matches("\\d+(\\.\\d+)?"))
+            return false;
+        double hours = Double.parseDouble(hoursText);
+        return hours > 0 && hours <= 24;
     }
-    
+
     private boolean isValidDescription(String description) {
-    	return !description.isEmpty() || description.length() >= 20;
+        return !description.isEmpty() || description.length() >= 20;
     }
-    
+
     private void showErrorMessage(String message) {
-    	if (lblErrorMessage != null) {
-    		lblErrorMessage.setText(message);
-    	} else {
-    		System.out.println("Error: " + message);
-    	}
+        if (lblErrorMessage != null) {
+            lblErrorMessage.setText(message);
+        } else {
+            System.out.println("Error: " + message);
+        }
     }
-    
+
     private void showSuccessMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -140,6 +141,5 @@ public class NewRecordsController extends AppController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 
 }

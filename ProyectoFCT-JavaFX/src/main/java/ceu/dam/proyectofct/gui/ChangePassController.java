@@ -6,9 +6,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 public class ChangePassController extends AppController {
 
@@ -26,7 +23,7 @@ public class ChangePassController extends AppController {
 
     @FXML
     private PasswordField pfPass;
-    
+
     @FXML
     private Label lblErrorMessage;
 
@@ -42,7 +39,8 @@ public class ChangePassController extends AppController {
         }
 
         if (!isValidNewPassword(newPass, currentPass)) {
-            showErrorMessage("New password must be at least 8 characters, include one letter and one number, and be different from the current password.");
+            showErrorMessage(
+                    "New password must be include one letter and one number, and be different from the current password.");
             return;
         }
 
@@ -58,10 +56,9 @@ public class ChangePassController extends AppController {
     }
 
     private boolean isValidNewPassword(String newPassword, String currentPassword) {
-        return newPassword.length() >= 8 &&
-               newPassword.matches(".*[a-zA-Z].*") &&
-               newPassword.matches(".*\\d.*") &&
-               !newPassword.equals(currentPassword);
+        return newPassword.matches(".*[a-zA-Z].*") &&
+                newPassword.matches(".*\\d.*") &&
+                !newPassword.equals(currentPassword);
     }
 
     private void showErrorMessage(String message) {

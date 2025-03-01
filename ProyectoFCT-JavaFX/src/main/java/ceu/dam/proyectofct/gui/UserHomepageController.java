@@ -1,5 +1,6 @@
 package ceu.dam.proyectofct.gui;
 
+import ceu.dam.proyectofct.apiclient.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -35,4 +36,11 @@ public class UserHomepageController extends AppController {
     @FXML
     private Label lblTotalH;
 
+    void initialize() {
+        User user = (User) getParam("loggedUser");
+
+        lblTitle.setText("Welcome, " + user.getUsername());
+        // TODO: Se debe actualizar el texto dinámicamente con los datos del usuario
+
+    }
 }
