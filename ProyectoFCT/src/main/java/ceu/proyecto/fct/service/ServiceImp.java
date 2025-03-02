@@ -6,15 +6,18 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
+import ceu.proyecto.fct.model.Mentor;
 import ceu.proyecto.fct.model.PracticeRecord;
+import ceu.proyecto.fct.model.Student;
 import ceu.proyecto.fct.model.User;
 import ceu.proyecto.fct.repository.PracticeRecordRepository;
+import ceu.proyecto.fct.repository.StudentRepository;
 import ceu.proyecto.fct.repository.UserRepository;
 
 @org.springframework.stereotype.Service
@@ -24,6 +27,9 @@ public class ServiceImp implements Service {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private StudentRepository studentRepository;
 
 	@Autowired
 	private PracticeRecordRepository recordRepository;
@@ -39,7 +45,7 @@ public class ServiceImp implements Service {
 				throw new WrongUserException("User not found.");
 			}
 
-			if (user.getIdStudent() == null) {
+			if (!user.isStudent()) {
 				log.error("User is not associated with a student");
 				throw new WrongUserException("User is not associated with a student.");
 			}
@@ -55,6 +61,23 @@ public class ServiceImp implements Service {
 			}
 
 			log.info("Login successful for user: {}", username);
+			
+			
+			if (user instanceof Student) {
+	            Student student = (Student) user;
+	            Hibernate.initialize(student.getCompany());
+	            Hibernate.initialize(student.getPracticeRecords());
+	            Hibernate.initialize(student.getMentor());
+	            return student;
+	        }
+
+	        if (user instanceof Mentor) {
+	            Mentor mentor = (Mentor) user;
+	            Hibernate.initialize(mentor.getStudents());
+	            return mentor;
+	        }
+	        
+	        log.info("User is not instance of any Student or Mentor");
 			return user;
 		} catch (DataAccessException e) {
 			log.error("Data Base Error", e);
@@ -85,6 +108,7 @@ public class ServiceImp implements Service {
 			}
 
 			user.setPass(newPass);
+			userRepository.save(user);
 			log.info("Password changed successfully for user: {}", user);
 			return user;
 		} catch (DataAccessException e) {
@@ -126,11 +150,13 @@ public class ServiceImp implements Service {
 				throw new WrongUserException("User not found.");
 			}
 
-			UUID studentId = user.getIdStudent().getId();
-			if (studentId == null) {
+			
+			if (!studentRepository.findById(user.getId()).isPresent()) {
 				log.error("User has no associated student ID");
 				throw new UserException("User has no associated student ID.");
 			}
+			
+			UUID studentId = user.getId();
 
 			log.info("Fetching records for student ID: {}", studentId);
 
@@ -177,20 +203,29 @@ public class ServiceImp implements Service {
 	}
 
 	@Override
-	public void createRecord(PracticeRecord record) throws UserException, IncorrectDataException {
+	public void createRecord(UUID userUUID, PracticeRecord practiceRecord) throws UserException, IncorrectDataException {
 		try {
 
-			log.info("Creating new record: {}", record);
+			log.info("Creating new record: {}", practiceRecord);
 
-			if (record == null) {
+			if (practiceRecord == null) {
 				log.error("Record cannot be null");
 				throw new IncorrectDataException("Record cannot be null.");
 			}
-			if (record.getAssociatedStudent() == null || record.getAssociatedDate() == null) {
+			Optional<Student> student = studentRepository.findById(userUUID);
+			
+			if (!student.isPresent()) {
+				log.error("User is not present");
+				throw new IncorrectDataException("User is not present");
+			}
+			
+			practiceRecord.setAssociatedStudent(student.get());
+			
+			if (practiceRecord.getAssociatedStudent() == null || practiceRecord.getAssociatedDate() == null) {
 				log.error("Record must be associated with a student and a date");
 				throw new IncorrectDataException("Record must be associated with a student and a date.");
 			}
-			recordRepository.save(record);
+			recordRepository.save(practiceRecord);
 			log.info("Record created successfully");
 		} catch (DataAccessException e) {
 			log.error("Data Base Error");

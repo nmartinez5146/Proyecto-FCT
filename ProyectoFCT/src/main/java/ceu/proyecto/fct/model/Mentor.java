@@ -1,56 +1,40 @@
 package ceu.proyecto.fct.model;
 
-import java.util.UUID;
 
-import org.hibernate.annotations.JdbcTypeCode;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+
+@Getter
+@Setter
 @Entity
-public class Mentor {
+@Table(name = "mentors")
+@DiscriminatorValue("MENTOR")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Mentor extends User{
 
-	@Id
-	@GeneratedValue
-	@JdbcTypeCode(java.sql.Types.VARCHAR)
-	private UUID id;
+	
 	@Size(max = 100)
 	private String fullName;
+	
 	private boolean active;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")
-    private User user;
+	@OneToMany(mappedBy = "mentor")
+	private List<Student> students;
 
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
+	@JsonProperty("students")
+    public List<Student> getStudents() {
+        return students;
+    }
 }

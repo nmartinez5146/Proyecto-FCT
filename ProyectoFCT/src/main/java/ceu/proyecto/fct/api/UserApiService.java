@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ceu.proyecto.fct.api.request.ChangePassRequest;
 import ceu.proyecto.fct.model.PracticeRecord;
 import ceu.proyecto.fct.model.User;
 import ceu.proyecto.fct.service.IncorrectDataException;
@@ -44,9 +43,10 @@ public class UserApiService {
 
 	@PutMapping
 	@Operation(summary = "Change pass", description = "Changes the old password to a new one.")
-	public User changePass(@RequestBody @Valid ChangePassRequest request)
+	public User changePass(@RequestParam @Valid UUID userUUID, @RequestParam @Valid String newPass)
 			throws UserException, WrongUserException, IncorrectDataException {
-		return service.changePasword(request.getNewPass(), request.getUser());
+		User user = service.showUser(userUUID);
+		return service.changePasword(newPass, user);
 	}
 
 	@GetMapping("/data/{userId}")
@@ -72,8 +72,8 @@ public class UserApiService {
 
 	@PostMapping
 	@Operation(summary = "Create record", description = "Creates a record based on the given data.")
-	public void createRecord(@RequestBody @Valid PracticeRecord record) throws UserException, IncorrectDataException {
-		service.createRecord(record);
+	public void createRecord(@RequestParam UUID userUUID, @RequestBody @Valid PracticeRecord practiceRecord) throws UserException, IncorrectDataException {
+		service.createRecord(userUUID, practiceRecord);
 	}
 
 }

@@ -4,6 +4,12 @@ import java.util.UUID;
 
 import org.hibernate.annotations.JdbcTypeCode;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,10 +18,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Data
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class PracticeRecord {
 
 	@Id
@@ -23,56 +32,20 @@ public class PracticeRecord {
 	@JdbcTypeCode(java.sql.Types.VARCHAR)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_student")
+	@ManyToOne
+	@JoinColumn(name = "id_student", nullable = false)
+	@JsonIgnore
 	private Student associatedStudent;
 
 	@Valid
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_date")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_date", nullable = false, unique = true) // Only one record for date
 	private Date associatedDate;
 
+	@Column(nullable = false)
+	@Min(value = 1, message = "Las horas deben ser al menos 1")
+	@Max(value = 16, message = "No puedes registrar más de 8 horas")
 	private int hours;
 	private String description;
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public Student getAssociatedStudent() {
-		return associatedStudent;
-	}
-
-	public void setAssociatedStudent(Student associatedStudent) {
-		this.associatedStudent = associatedStudent;
-	}
-
-	public Date getAssociatedDate() {
-		return associatedDate;
-	}
-
-	public void setAssociatedDate(Date associatedDate) {
-		this.associatedDate = associatedDate;
-	}
-
-	public int getHours() {
-		return hours;
-	}
-
-	public void setHours(int hours) {
-		this.hours = hours;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 }

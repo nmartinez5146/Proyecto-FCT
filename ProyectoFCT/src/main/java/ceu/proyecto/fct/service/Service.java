@@ -21,6 +21,6 @@ public interface Service {
 
 	public void deleteRecord(UUID idRecord) throws UserException, IncorrectDataException;
 
-	public void createRecord(PracticeRecord record) throws UserException, IncorrectDataException;
+	void createRecord(UUID userUUID, PracticeRecord practiceRecord) throws UserException, IncorrectDataException;
 
 }
