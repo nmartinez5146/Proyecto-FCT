@@ -1,5 +1,8 @@
 package ceu.dam.proyectofct.gui;
 
+import java.util.List;
+
+import ceu.dam.proyectofct.apiclient.ApiClient;
 import ceu.dam.proyectofct.apiclient.model.PracticeRecord;
 import ceu.dam.proyectofct.apiclient.model.Student;
 import javafx.fxml.FXML;
@@ -7,24 +10,18 @@ import javafx.scene.control.Label;
 
 public class UserHomepageController extends AppController {
 
-	private Student student;
-
-    public void setStudent(Student student) {
-        this.student = student;
-        initializeData();
-    }
-
     @FXML
     private Label lblTitle, lblFullname, lblCourse, lblCourseYear, lblEvaluation, lblMentorName, lblCompanyName, lblTotalH, lblCompletedH, lblPendingH;
 
-    @FXML
     public void initialize() {
-    }
+    	
+    	Student student = (Student) getParam("loggedStudent");
+    	
+    	if (student == null) {
+            System.err.println("Error: loggedStudent es null en UserHomepageController.");
+            return; // Evita que la aplicación falle si el estudiante es nulo
+        }
 
-    private void initializeData() {
-        if (student == null) return;
-
-        System.out.println(student.getFullName());
         lblTitle.setText("Welcome, " + student.getUsername());
         lblFullname.setText(student.getFullName());
         lblCourse.setText(student.getCourse().toString());
@@ -36,8 +33,13 @@ public class UserHomepageController extends AppController {
         // Internship hours
         int totalHours = 370;
         int completedHours = 0;
-        for (PracticeRecord record : student.getPracticeRecords()) {
-            completedHours += record.getHours();
+        
+        ApiClient apiClient = getApiClient();
+        List<PracticeRecord> records = apiClient.getRecords(student.getId(), null, null, "");
+        System.out.println(records);
+        
+        for (PracticeRecord practiceRecord : records) {
+            completedHours += practiceRecord.getHours();
         }
         int pendingHours = totalHours - completedHours;
 

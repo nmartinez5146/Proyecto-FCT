@@ -16,7 +16,7 @@ public interface Service {
 
 	public User showUser(UUID userId) throws UserException, WrongUserException;
 
-	public List<PracticeRecord> consultAllRecords(User user, LocalDate date1, LocalDate date2, String stateDate)
+	public List<PracticeRecord> consultAllRecords(UUID userUUID, LocalDate date1, LocalDate date2, String stateDate)
 			throws UserException, WrongUserException;
 
 	public void deleteRecord(UUID idRecord) throws UserException, IncorrectDataException;

@@ -1,5 +1,9 @@
 package ceu.dam.proyectofct.gui;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
+import ceu.dam.proyectofct.apiclient.ApiClient;
+import ceu.dam.proyectofct.apiclient.model.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -26,6 +30,12 @@ public class ChangePassController extends AppController {
 
     @FXML
     private Label lblErrorMessage;
+    
+    private Student student;
+    
+    public ChangePassController() {
+		this.student = (Student) getParam("loggedStudent");
+	}
 
     @FXML
     void saveChanges(ActionEvent event) {
@@ -43,15 +53,30 @@ public class ChangePassController extends AppController {
                     "New password must be include one letter and one number, and be different from the current password.");
             return;
         }
+        
+        if (!isValidPasswordToCurrent(currentPass)) {
+        	showErrorMessage("The password is not the same to your current password.");
+        }
 
-        // TODO: Implementar lógica para guardar la nueva contraseña en la base de datos
+        ApiClient apiClient = getApiClient();
+        
+        try {
+        	apiClient.changePassword(student.getId(), newPass);			
+        	// Confirmación de cambio exitoso
+        	showConfirmation("Password changed successfully.");
+        	changeScene(FXML_MENU);
+		} catch (Exception e) {
+			showErrorMessage("Password could not be changed");
+		}
 
-        // Confirmación de cambio exitoso
-        showConfirmation("Password changed successfully.");
-        changeScene(FXML_MENU);
     }
 
-    private boolean isValidCurrentPassword(String password) {
+    private boolean isValidPasswordToCurrent(String currentPass) {
+		String currentPassCif = DigestUtils.sha256Hex(currentPass);
+		return student.getPass().equals(currentPassCif);
+	}
+
+	private boolean isValidCurrentPassword(String password) {
         return !password.isEmpty();
     }
 

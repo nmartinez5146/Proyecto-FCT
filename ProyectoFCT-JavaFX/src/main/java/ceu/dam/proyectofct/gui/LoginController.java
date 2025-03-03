@@ -60,10 +60,9 @@ public class LoginController extends AppController {
 		try {
 			Object user = apiClient.login(username, password);
 			if (user != null) {
-				
 				if (user instanceof Student) {
 		            Student student = (Student) user;
-		            System.out.println("Login successful for Student: " + student.getFullName() );
+		            System.out.println("LoggedStudent: " + student);
 		            addParam("loggedStudent", student);
 		            changeScene(FXML_MENU);
 		            
@@ -74,8 +73,6 @@ public class LoginController extends AppController {
 		        } else {
 					showErrorMessage("Uknown user role.");
 				}
-				
- 
 			} else {
 				showErrorMessage("Invalid username or password.");
 			}

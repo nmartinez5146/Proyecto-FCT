@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class PracticeRecord {
 
 	private UUID id;
-	private Date date;
+	private Date associatedDate;
 	private int hours;
 	private String description;
 

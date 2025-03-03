@@ -4,6 +4,7 @@ package ceu.proyecto.fct.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -50,7 +52,8 @@ public class Student extends User {
 	@JoinColumn(name = "id_company")
 	private Company company;
 	
-	@OneToMany(mappedBy = "associatedStudent", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "associatedStudent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<PracticeRecord> practiceRecords;
 
 	// Methods to force the loading of data in JSON
@@ -62,10 +65,5 @@ public class Student extends User {
     @JsonProperty("mentor")
     public Mentor getMentor() {
         return mentor;
-    }
-
-    @JsonProperty("practiceRecords")
-    public List<PracticeRecord> getPracticeRecords() {
-        return practiceRecords;
     }
 }

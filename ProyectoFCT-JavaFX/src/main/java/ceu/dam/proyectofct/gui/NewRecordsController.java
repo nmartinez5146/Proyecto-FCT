@@ -7,7 +7,6 @@ import ceu.dam.proyectofct.apiclient.ApiClient;
 import ceu.dam.proyectofct.apiclient.model.Date;
 import ceu.dam.proyectofct.apiclient.model.PracticeRecord;
 import ceu.dam.proyectofct.apiclient.model.Student;
-import ceu.dam.proyectofct.apiclient.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -104,24 +103,27 @@ public class NewRecordsController extends AppController {
 
         int hours = Integer.parseInt(hoursText);
         
-        PracticeRecord record = new PracticeRecord();
         Date date = new Date();
         date.setCourseYear(student.getCourseYear());
         date.setEvaluation(student.getEvaluation());
         date.setDate(selectedDate);
-        record.setDate(date);
+        
+        PracticeRecord record = new PracticeRecord();
+        record.setAssociatedDate(date);
         record.setDescription(description);
         record.setHours(hours);
+        
+        System.out.println("PracticeRecord before sending: " + record);
+        System.out.println("Date in PracticeRecord: " + record.getAssociatedDate());
 
         try {
-            apiClient.createRecord(record);
+            apiClient.createRecord(student.getId(), record);
             showSuccessMessage("The record has been created successfully.");
+            MenuController menuRecords = (MenuController) changeScene(FXML_MENU);
+            menuRecords.seeRecords(null);
         } catch (Exception e) {
             showErrorMessage("Error saving record: " + e.getMessage());
         }
-
-        MenuController menuRecords = (MenuController) changeScene(FXML_MENU);
-        menuRecords.seeRecords(null);
     }
 
     private boolean isValidDate(LocalDate date) {

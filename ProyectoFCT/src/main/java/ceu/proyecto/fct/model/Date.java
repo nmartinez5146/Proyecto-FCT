@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.hibernate.annotations.JdbcTypeCode;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import ceu.proyecto.fct.model.num.Evaluation;
 import jakarta.persistence.Entity;
@@ -29,7 +30,7 @@ public class Date {
 	private UUID id;
 	
 	@NotNull(message = "La fecha no puede ser nula")
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate date;
 	
 	@NotNull(message = "El año del curso no puede ser nulo")

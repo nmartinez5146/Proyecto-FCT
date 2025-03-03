@@ -1,3 +1,4 @@
+
 package ceu.proyecto.fct.api;
 
 import java.time.LocalDate;
@@ -6,6 +7,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ceu.proyecto.fct.model.Mentor;
 import ceu.proyecto.fct.model.PracticeRecord;
+import ceu.proyecto.fct.model.Student;
 import ceu.proyecto.fct.model.User;
 import ceu.proyecto.fct.service.IncorrectDataException;
 import ceu.proyecto.fct.service.ServiceImp;
@@ -36,9 +41,18 @@ public class UserApiService {
 
 	@GetMapping
 	@Operation(summary = "Login", description = "Logs in a user using their username and password.")
-	public User login(@RequestParam String username, @RequestParam String pass)
-			throws UserException, WrongUserException, IncorrectDataException {
-		return service.login(username, pass);
+	public ResponseEntity<?> login(@RequestParam String username, @RequestParam String pass)
+	        throws UserException, WrongUserException, IncorrectDataException {
+	    
+	    User user = service.login(username, pass);
+	    
+	    if (user instanceof Student) {
+	        return ResponseEntity.ok((Student) user);
+	    } else if (user instanceof Mentor) {
+	        return ResponseEntity.ok((Mentor) user);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user role");
+	    }
 	}
 
 	@PutMapping
@@ -57,11 +71,11 @@ public class UserApiService {
 
 	@GetMapping("/practiceRecord")
 	@Operation(summary = "Retrieve records", description = "Retrieves all user records based on the given filters.")
-	public List<PracticeRecord> consultAllRecords(@RequestParam User user,
+	public List<PracticeRecord> consultAllRecords(@RequestParam("userUUID") UUID userUUID,
 			@RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate date1,
 			@RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate date2,
 			@RequestParam(required = false) String stateDate) throws UserException, WrongUserException {
-		return service.consultAllRecords(user, date1, date2, stateDate);
+		return service.consultAllRecords(userUUID, date1, date2, stateDate);
 	}
 
 	@DeleteMapping("/{id}")

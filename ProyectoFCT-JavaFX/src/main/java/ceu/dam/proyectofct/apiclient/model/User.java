@@ -17,4 +17,12 @@ public class User {
 	private Perfil profile;
 	private boolean active;
 	
+	public boolean isStudent() {
+		return this.profile == Perfil.STUDENT;
+	}
+
+	public boolean isMentor() {
+		return this.profile == Perfil.MENTOR;
+	}
+	
 }

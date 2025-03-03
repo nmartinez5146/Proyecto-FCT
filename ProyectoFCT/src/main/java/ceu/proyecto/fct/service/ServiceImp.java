@@ -66,7 +66,6 @@ public class ServiceImp implements Service {
 			if (user instanceof Student) {
 	            Student student = (Student) user;
 	            Hibernate.initialize(student.getCompany());
-	            Hibernate.initialize(student.getPracticeRecords());
 	            Hibernate.initialize(student.getMentor());
 	            return student;
 	        }
@@ -140,27 +139,28 @@ public class ServiceImp implements Service {
 	}
 
 	@Override
-	public List<PracticeRecord> consultAllRecords(User user, LocalDate date1, LocalDate date2, String stateDate)
+	public List<PracticeRecord> consultAllRecords(UUID userUUID, LocalDate date1, LocalDate date2, String stateDate)
 			throws UserException, WrongUserException {
 		try {
-			log.info("Consulting all records for user: {}", user);
+			
+			Optional<User> userOp = userRepository.findById(userUUID);
+			
+			log.info("Consulting all records for userUUID: {}", userUUID);
 
-			if (user == null) {
+			if (!userOp.isPresent()) {
 				log.error("User not found");
 				throw new WrongUserException("User not found.");
 			}
-
 			
-			if (!studentRepository.findById(user.getId()).isPresent()) {
+			if (!studentRepository.findById(userUUID).isPresent()) {
 				log.error("User has no associated student ID");
 				throw new UserException("User has no associated student ID.");
 			}
 			
-			UUID studentId = user.getId();
 
-			log.info("Fetching records for student ID: {}", studentId);
+			log.info("Fetching records for student ID: {}", userUUID);
 
-			List<PracticeRecord> allRecords = recordRepository.findByAssociatedStudent_Id(studentId);
+			List<PracticeRecord> allRecords = recordRepository.findByAssociatedStudent_Id(userUUID);
 
 			List<PracticeRecord> filteredRecords = allRecords.stream().filter(record -> {
 				LocalDate recordDate = record.getAssociatedDate().getDate();
@@ -220,6 +220,9 @@ public class ServiceImp implements Service {
 			}
 			
 			practiceRecord.setAssociatedStudent(student.get());
+			System.out.println(practiceRecord);
+			System.out.println(practiceRecord.getAssociatedStudent());
+			System.out.println(practiceRecord.getAssociatedDate());
 			
 			if (practiceRecord.getAssociatedStudent() == null || practiceRecord.getAssociatedDate() == null) {
 				log.error("Record must be associated with a student and a date");
@@ -228,7 +231,7 @@ public class ServiceImp implements Service {
 			recordRepository.save(practiceRecord);
 			log.info("Record created successfully");
 		} catch (DataAccessException e) {
-			log.error("Data Base Error");
+			log.error("Data Base Error", e);
 			throw new UserException("Data Base Error", e);
 		}
 	}
