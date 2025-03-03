@@ -10,67 +10,64 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="575.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceu.dam.proyectofct.gui.RecordsManageController">
-   <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/ceuLogo.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="lblTitle" layoutX="317.0" layoutY="46.0" text="Records Management">
-         <font>
-            <Font name="Arial Bold" size="45.0" />
-         </font>
-      </Label>
-      <TableView fx:id="recordsTable" layoutX="191.0" layoutY="134.0" prefHeight="296.0" prefWidth="637.0">
-        <columns>
-          <TableColumn fx:id="colDate" prefWidth="139.19998168945312" text="Date" />
-          <TableColumn fx:id="colHours" prefWidth="78.4000244140625" text="Hours" />
-            <TableColumn fx:id="colDescription" prefWidth="420.0000915527344" text="Description" />
-        </columns>
-      </TableView>
-      <Label layoutX="60.0" layoutY="134.0" text="Filters:">
-         <font>
-            <Font name="Arial Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="32.0" layoutY="168.0" text="Show:" />
-      <RadioButton fx:id="rbAllDates" layoutX="45.0" layoutY="198.0" mnemonicParsing="false" selected="true" text="All Dates">
-         <toggleGroup>
-            <ToggleGroup fx:id="dates" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="rbCDates" layoutX="45.0" layoutY="227.0" mnemonicParsing="false" text="Completed Dates" toggleGroup="$dates" />
-      <RadioButton fx:id="rbNCDates" layoutX="45.0" layoutY="255.0" mnemonicParsing="false" text="Not Completed Dates" toggleGroup="$dates" />
-      <DatePicker fx:id="dpFrom" layoutX="32.0" layoutY="302.0" prefHeight="26.0" prefWidth="137.0" promptText="dd/MM/yyyy" />
-      <Label layoutX="34.0" layoutY="282.0" text="From:" />
-      <DatePicker fx:id="dpTo" layoutX="32.0" layoutY="357.0" prefHeight="26.0" prefWidth="137.0" promptText="dd/MM/yyyy" />
-      <Label layoutX="34.0" layoutY="337.0" text="To:" />
-      <Button fx:id="btnApplyF" layoutX="46.0" layoutY="404.0" mnemonicParsing="false" onAction="#applyFilters" text="Apply Filters" />
-      <Label layoutX="191.0" layoutY="444.0" text="Date:">
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblDate" layoutX="235.0" layoutY="443.0" text="{record.date}" />
-      <Label layoutX="336.0" layoutY="444.0" text="Hours:">
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblHours" layoutX="389.0" layoutY="443.0" text="{record.hours}" />
-      <Label layoutX="191.0" layoutY="469.0" text="Description:">
-         <font>
-            <Font name="Arial Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblDescription" layoutX="192.0" layoutY="485.0" prefHeight="86.0" prefWidth="415.0" text="{record.date}">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnCreateNew" layoutX="751.0" layoutY="447.0" mnemonicParsing="false" onAction="#createNewRecord" text="Create New" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceu.dam.proyectofct.gui.RecordsManageController">
+
+    <children>
+        <!-- Logo -->
+        <ImageView fitHeight="120.0" fitWidth="160.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../assets/ceuLogo.png" />
+            </image>
+        </ImageView>
+
+        <!-- Título -->
+        <Label fx:id="lblTitle" layoutX="250.0" layoutY="35.0" styleClass="title-label" text="Records Management" />
+
+        <!-- Tabla de registros -->
+        <TableView fx:id="recordsTable" layoutX="200.0" layoutY="120.0" prefHeight="310.0" prefWidth="680.0" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="colDate" prefWidth="150.0" text="Date" />
+                <TableColumn fx:id="colHours" prefWidth="90.0" text="Hours" />
+                <TableColumn fx:id="colDescription" prefWidth="430.0" text="Description" />
+            </columns>
+        </TableView>
+
+        <!-- Filtros -->
+        <Label layoutX="30.0" layoutY="130.0" styleClass="section-label" text="Filters:" />
+        <Label layoutX="30.0" layoutY="165.0" text="Show:" />
+        
+        <VBox layoutX="30.0" layoutY="189.0" spacing="5.0">
+            <RadioButton fx:id="rbAllDates" selected="true" styleClass="radio-button" text="All Dates">
+                <toggleGroup>
+                    <ToggleGroup fx:id="dates" />
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="rbCDates" styleClass="radio-button" text="Completed Dates" toggleGroup="$dates" />
+            <RadioButton fx:id="rbNCDates" styleClass="radio-button" text="Not Completed Dates" toggleGroup="$dates" />
+        </VBox>
+
+        <Label layoutX="30.0" layoutY="280.0" text="From:" />
+        <DatePicker fx:id="dpFrom" layoutX="30.0" layoutY="300.0" prefHeight="27.0" prefWidth="140.0" promptText="dd/MM/yyyy" styleClass="datepicker" />
+        <Label layoutX="30.0" layoutY="339.0" text="To:" />
+        <DatePicker fx:id="dpTo" layoutX="30.0" layoutY="359.0" prefWidth="140.0" promptText="dd/MM/yyyy" styleClass="datepicker" />
+
+        <Button fx:id="btnApplyF" layoutX="38.0" layoutY="412.0" onAction="#applyFilters" styleClass="btn-green" text="Apply Filters" />
+
+        <!-- Información del registro -->
+        <Label layoutX="200.0" layoutY="450.0" styleClass="bold-label" text="Date:" />
+        <Label fx:id="lblDate" layoutX="250.0" layoutY="450.0" text="-" />
+
+        <Label layoutX="350.0" layoutY="450.0" styleClass="bold-label" text="Hours:" />
+        <Label fx:id="lblHours" layoutX="400.0" layoutY="450.0" text="-" />
+
+        <Label layoutX="200.0" layoutY="475.0" styleClass="bold-label" text="Description:" />
+        <Label fx:id="lblDescription" alignment="TOP_LEFT" layoutX="200.0" layoutY="495.0" prefHeight="60.0" prefWidth="450.0" wrapText="true" />
+
+        <!-- Botones de acciones -->
+        <Button fx:id="btnCreateNew" layoutX="780.0" layoutY="460.0" onAction="#createNewRecord" styleClass="btn-blue" text="Create New" />
+        <Button fx:id="btnDeleteRecord" disable="true" layoutX="780.0" layoutY="507.0" onAction="#deleteRecord" styleClass="btn-red" text="Delete Record" />
+        <Button fx:id="btnCleanFields" layoutX="38.0" layoutY="452.0" onAction="#cleanFields" prefHeight="27.0" prefWidth="108.0" styleClass="btn-gray" text="Clean Fields" />
+    </children>
 </AnchorPane>

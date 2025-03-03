@@ -5,8 +5,8 @@ import ceu.dam.proyectofct.apiclient.model.Mentor;
 import ceu.dam.proyectofct.apiclient.model.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -19,19 +19,10 @@ public class LoginController extends AppController {
 	private Button btnLogin;
 
 	@FXML
-	private Label lblPass;
-
-	@FXML
-	private Label lblUsername;
-
-	@FXML
 	private PasswordField pfPass;
 
 	@FXML
 	private TextField tfUsername;
-
-	@FXML
-	private Label lblErrorMessage;
 
 	@FXML
 	void exitApp(ActionEvent event) {
@@ -91,11 +82,13 @@ public class LoginController extends AppController {
 	}
 
 	private void showErrorMessage(String message) {
-		if (lblErrorMessage != null) {
-			lblErrorMessage.setText(message);
-		} else {
-			System.out.println("Error: " + message);
-		}
+	    Alert alert = new Alert(Alert.AlertType.ERROR);
+	    alert.setTitle("Error");
+	    alert.setHeaderText(null);
+	    alert.setContentText(message);
+	    
+	    // Mostrar el alert y esperar a que el usuario lo cierre
+	    alert.showAndWait();
 	}
 
 }

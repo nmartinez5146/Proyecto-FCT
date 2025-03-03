@@ -14,8 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -43,18 +44,25 @@ public class NewRecordsController extends AppController {
     private TextArea taDescription;
 
     @FXML
-    private TextField tfNumHours;
+    private Spinner<Double> spNumHours;
 
     @FXML
     private Label lblErrorMessage;
+    
+    
+    public void initialize() {
+    	System.out.println("spNumHours: " + spNumHours);
+        SpinnerValueFactory<Double> valueFactory = 
+            new SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, 16.0, 0.0, 0.5);
+        spNumHours.setValueFactory(valueFactory);
+    }
 
     @FXML
     void goBack(MouseEvent event) {
         LocalDate selectedDate = dpDate.getValue();
-        String hoursText = tfNumHours.getText().trim();
         String description = taDescription.getText().trim();
 
-        boolean hasData = (selectedDate != null) || !hoursText.isEmpty() || !description.isEmpty();
+        boolean hasData = (selectedDate != null) || !description.isEmpty();
 
         if (!hasData) {
             MenuController menuRecords = (MenuController) changeScene(FXML_MENU);
@@ -80,7 +88,7 @@ public class NewRecordsController extends AppController {
         ApiClient apiClient = new ApiClient();
 
         LocalDate selectedDate = dpDate.getValue();
-        String hoursText = tfNumHours.getText().trim();
+        Double hours = spNumHours.getValue();
         String description = taDescription.getText().trim();
         
         Student student = (Student) getParam("loggedStudent");
@@ -91,8 +99,8 @@ public class NewRecordsController extends AppController {
             return;
         }
 
-        if (!isValidHours(hoursText)) {
-            showErrorMessage("Invalid hours. Enter a number between 0 and 24");
+        if (!isValidHours(hours)) {
+            showErrorMessage("Invalid hours. Enter a number between 0 and 16");
             return;
         }
 
@@ -100,8 +108,6 @@ public class NewRecordsController extends AppController {
             showErrorMessage("Description must be at least 20 characters long.");
             return;
         }
-
-        int hours = Integer.parseInt(hoursText);
         
         Date date = new Date();
         date.setCourseYear(student.getCourseYear());
@@ -122,7 +128,7 @@ public class NewRecordsController extends AppController {
             MenuController menuRecords = (MenuController) changeScene(FXML_MENU);
             menuRecords.seeRecords(null);
         } catch (Exception e) {
-            showErrorMessage("Error saving record: " + e.getMessage());
+            showErrorMessage("Error saving record: " + e.getLocalizedMessage());
         }
     }
 
@@ -130,10 +136,7 @@ public class NewRecordsController extends AppController {
         return date != null && !date.isAfter(LocalDate.now());
     }
 
-    private boolean isValidHours(String hoursText) {
-        if (hoursText.isEmpty() || !hoursText.matches("\\d+(\\.\\d+)?"))
-            return false;
-        double hours = Double.parseDouble(hoursText);
+    private boolean isValidHours(Double hours) {
         return hours > 0 && hours <= 24;
     }
 
@@ -152,7 +155,7 @@ public class NewRecordsController extends AppController {
     private void showSuccessMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
-        alert.setHeaderText(null); // Sin cabecera para que el mensaje sea más limpio
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }

@@ -1,0 +1,143 @@
+/* General */
+.root {
+    -fx-background-color: #f5f5f5;
+}
+
+/* Título */
+.title-label {
+    -fx-font-size: 36px;
+    -fx-font-family: "Arial Black";
+    -fx-text-fill: #2c3e50;
+}
+
+/* Secciones */
+.section-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+/* Etiquetas en negrita */
+.bold-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Tabla */
+.table-view {
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: white;
+}
+
+/* Radio Buttons */
+.radio-button {
+    -fx-font-size: 14px;
+}
+
+/* DatePickers */
+.datepicker {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5px;
+}
+
+/* Botones */
+.btn-blue {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+}
+
+.btn-red {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+}
+
+.btn-green {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+}
+
+.btn-gray {
+    -fx-background-color: #7f8c8d;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+}
+
+/* Sombra al pasar el mouse */
+.btn-blue:hover, .btn-red:hover, .btn-green:hover, .btn-gray:hover {
+    -fx-opacity: 0.8;
+    -fx-cursor: hand;
+}
+
+/* Contenedor principal del login */
+.login-container {
+    -fx-background-color: #ffffff;
+    -fx-padding: 30px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 6);
+}
+
+/* Campos de texto */
+.login-field {
+    -fx-font-size: 14px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-pref-width: 250px;
+}
+
+/* Mensaje de error */
+.error-label {
+    -fx-text-fill: #e74c3c;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+/* Botón de login */
+.btn-login {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-pref-width: 150px;
+}
+
+/* Botón de salir */
+.btn-exit {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-pref-width: 150px;
+}
+
+/* Hover en botones */
+.btn-login:hover, .btn-exit:hover {
+    -fx-opacity: 0.85;
+    -fx-cursor: hand;
+}
+
+/* Efecto de enfoque en campos de texto */
+.login-field:focused {
+    -fx-border-color: #007bff;
+    -fx-border-width: 2px;
+}

@@ -13,7 +13,7 @@ public class PracticeRecord {
 
 	private UUID id;
 	private Date associatedDate;
-	private int hours;
+	private Double hours;
 	private String description;
 
 }

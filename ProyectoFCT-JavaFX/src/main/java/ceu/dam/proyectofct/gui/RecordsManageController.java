@@ -28,6 +28,12 @@ public class RecordsManageController extends AppController {
 
 	@FXML
 	private Button btnCreateNew;
+	
+	@FXML
+    private Button btnDeleteRecord;
+	
+	@FXML
+    private Button btnCleanFields;
 
 	@FXML
 	private TableColumn<PracticeRecord, String> colDate;
@@ -114,6 +120,7 @@ public class RecordsManageController extends AppController {
 	    lblDate.setText(practiceRecord.getAssociatedDate().getDate().format(formatter).toString());
 	    lblDescription.setText(practiceRecord.getDescription());
 	    lblHours.setText(String.valueOf(practiceRecord.getHours()));
+	    btnDeleteRecord.setDisable(false);
 	}
 
 	@FXML
@@ -144,5 +151,32 @@ public class RecordsManageController extends AppController {
 	void createNewRecord(ActionEvent event) {
 		changeScene(FXML_NEWRECORD);
 	}
+	
+	@FXML
+    void deleteRecord(ActionEvent event) {
+		PracticeRecord selectedRecord = recordsTable.getSelectionModel().getSelectedItem();
+	    if (selectedRecord != null) {
+	        apiClient.deleteRecord(selectedRecord.getId());
+	        datos.remove(selectedRecord);
+	        limpiarDetalles();
+	        btnDeleteRecord.setDisable(true);
+	    }
+    }
+	
+	@FXML
+    void cleanFields(ActionEvent event) {
+		dpFrom.setValue(null);
+		dpTo.setValue(null);
+		rbAllDates.setSelected(true);
+		rbCDates.setSelected(false);
+		rbNCDates.setSelected(false);
+    }
+	
+	private void limpiarDetalles() {
+	    lblDate.setText("");
+	    lblDescription.setText("");
+	    lblHours.setText("");
+	}
+
 
 }
