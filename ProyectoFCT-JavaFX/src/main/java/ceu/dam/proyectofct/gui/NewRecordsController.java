@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import ceu.dam.proyectofct.apiclient.ApiClient;
+import ceu.dam.proyectofct.apiclient.model.Date;
 import ceu.dam.proyectofct.apiclient.model.PracticeRecord;
+import ceu.dam.proyectofct.apiclient.model.Student;
+import ceu.dam.proyectofct.apiclient.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -80,6 +83,8 @@ public class NewRecordsController extends AppController {
         LocalDate selectedDate = dpDate.getValue();
         String hoursText = tfNumHours.getText().trim();
         String description = taDescription.getText().trim();
+        
+        Student student = (Student) getParam("loggedStudent");
 
         // Validaciones
         if (!isValidDate(selectedDate)) {
@@ -98,7 +103,15 @@ public class NewRecordsController extends AppController {
         }
 
         int hours = Integer.parseInt(hoursText);
-        PracticeRecord record = new PracticeRecord(AppController.getLoggedUser(), selectedDate, hours, description);
+        
+        PracticeRecord record = new PracticeRecord();
+        Date date = new Date();
+        date.setCourseYear(student.getCourseYear());
+        date.setEvaluation(student.getEvaluation());
+        date.setDate(selectedDate);
+        record.setDate(date);
+        record.setDescription(description);
+        record.setHours(hours);
 
         try {
             apiClient.createRecord(record);

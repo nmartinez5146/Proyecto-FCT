@@ -55,7 +55,7 @@ public class UserApiService {
 		return service.showUser(userId);
 	}
 
-	@GetMapping("/PracticeRecord")
+	@GetMapping("/practiceRecord")
 	@Operation(summary = "Retrieve records", description = "Retrieves all user records based on the given filters.")
 	public List<PracticeRecord> consultAllRecords(@RequestParam User user,
 			@RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate date1,

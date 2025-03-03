@@ -1,8 +1,13 @@
 package ceu.dam.proyectofct.gui;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import ceu.dam.proyectofct.apiclient.ApiClient;
 import ceu.dam.proyectofct.apiclient.model.PracticeRecord;
+import ceu.dam.proyectofct.apiclient.model.Student;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class RecordsManageController extends AppController {
 
@@ -63,10 +69,28 @@ public class RecordsManageController extends AppController {
 
 	@FXML
 	private TableView<PracticeRecord> recordsTable;
+	
+	private ObservableList<PracticeRecord> datos;
+	
+	private Student student;
+	
+	public RecordsManageController() {
+		this.student = (Student) getParam("loggedStudent");
+	}
 
 	@FXML
 	void initialize() {
 		// TODO: Recopiar todo los records del usuario loggeado y mostrarlos en la tabla
+		colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+		colHours.setCellValueFactory(new PropertyValueFactory<>("hours"));
+		
+		datos = FXCollections.observableArrayList();
+		recordsTable.setItems(datos);
+		
+		List<PracticeRecord> practiceRecords = student.getPracticeRecords();
+		datos.setAll(practiceRecords);
+		
 	}
 
 	@FXML

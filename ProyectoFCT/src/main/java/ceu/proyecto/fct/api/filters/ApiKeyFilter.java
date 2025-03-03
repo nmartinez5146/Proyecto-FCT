@@ -1,6 +1,7 @@
 package ceu.proyecto.fct.api.filters;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,11 @@ public class ApiKeyFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String apiKeyRequest = request.getHeader("API-KEY");
+	    Enumeration<String> headerNames = request.getHeaderNames();
+	    while (headerNames.hasMoreElements()) {
+	        String header = headerNames.nextElement();
+	        System.out.println(header + ": " + request.getHeader(header));
+	    }
 		if (apiKey.equals(apiKeyRequest)) {
 			filterChain.doFilter(request, response);
 		} else {

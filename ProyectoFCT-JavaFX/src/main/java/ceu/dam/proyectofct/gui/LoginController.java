@@ -1,7 +1,8 @@
 package ceu.dam.proyectofct.gui;
 
 import ceu.dam.proyectofct.apiclient.ApiClient;
-import ceu.dam.proyectofct.apiclient.model.User;
+import ceu.dam.proyectofct.apiclient.model.Mentor;
+import ceu.dam.proyectofct.apiclient.model.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,7 +40,7 @@ public class LoginController extends AppController {
 
 	@FXML
 	void login(ActionEvent event) {
-		ApiClient apiClient = new ApiClient();
+		ApiClient apiClient = getApiClient();
 
 		String username = tfUsername.getText().trim();
 		String password = pfPass.getText().trim();
@@ -57,19 +58,24 @@ public class LoginController extends AppController {
 		}
 
 		try {
-			User user = apiClient.login(username, password);
+			Object user = apiClient.login(username, password);
 			if (user != null) {
-				AppController.setLoggedUser(user);
-				System.out.println("Login successful: " + user.getUsername() + " | Role:" + user.getProfile());
-
-				if (AppController.isStudent()) {
-					addParam("loggedUser", user);
-					changeScene(FXML_MENU);
-				} else if (AppController.isMentor()) {
-					// TODO: Implementar pagina ADMIN
-				} else {
+				
+				if (user instanceof Student) {
+		            Student student = (Student) user;
+		            System.out.println("Login successful for Student: " + student.getFullName() );
+		            addParam("loggedStudent", student);
+		            changeScene(FXML_MENU);
+		            
+		        } else if (user instanceof Mentor) {
+		            Mentor mentor = (Mentor) user;
+		            System.out.println("Mentor logueado: " + mentor.getFullName());
+		            // TODO: Implementar lógica de pantallas para ADMINS
+		        } else {
 					showErrorMessage("Uknown user role.");
 				}
+				
+ 
 			} else {
 				showErrorMessage("Invalid username or password.");
 			}
