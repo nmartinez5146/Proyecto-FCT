@@ -42,15 +42,10 @@ public class PracticeRecord {
 	private Date associatedDate;
 
 	@Column(nullable = false)
-<<<<<<< HEAD
-	@Min(value = 1, message = "Las horas deben ser al menos 1")
-	@Max(value = 16, message = "No puedes registrar más de 8 horas")
-	private Double hours;
-=======
 	@Min(value = 1, message = "The hours must be at least 1")
 	@Max(value = 16, message = "You cannot register more than 8 hours")
-	private int hours;
->>>>>>> 379f4cdc6193b59ca5b611e1aa5ca848e72b567d
+	private Double hours;
+
 	private String description;
 
 }
