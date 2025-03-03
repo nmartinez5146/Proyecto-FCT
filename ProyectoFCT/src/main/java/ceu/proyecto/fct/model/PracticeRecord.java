@@ -42,8 +42,8 @@ public class PracticeRecord {
 	private Date associatedDate;
 
 	@Column(nullable = false)
-	@Min(value = 1, message = "Las horas deben ser al menos 1")
-	@Max(value = 16, message = "No puedes registrar más de 8 horas")
+	@Min(value = 1, message = "The hours must be at least 1")
+	@Max(value = 16, message = "You cannot register more than 8 hours")
 	private int hours;
 	private String description;
 

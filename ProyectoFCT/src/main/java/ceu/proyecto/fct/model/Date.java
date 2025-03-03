@@ -28,23 +28,23 @@ public class Date {
 	@GeneratedValue
 	@JdbcTypeCode(java.sql.Types.VARCHAR)
 	private UUID id;
-	
-	@NotNull(message = "La fecha no puede ser nula")
+
+	@NotNull(message = "The date cannot be null")
 	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate date;
-	
-	@NotNull(message = "El año del curso no puede ser nulo")
+
+	@NotNull(message = "The course year cannot be null")
 	private int courseYear;
-	
+
 	@Enumerated(EnumType.STRING)
-	@NotNull(message = "La evaluación no puede ser nula")
+	@NotNull(message = "The evaluation cannot be null")
 	private Evaluation evaluation;
-	
+
 	@PrePersist
 	@PreUpdate
 	private void validateDate() {
 		if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-			throw new IllegalArgumentException("No se pueden registrar prácticas en fines de semana.");
+			throw new IllegalArgumentException("Practices cannot be registered on weekends.");
 		}
 	}
 

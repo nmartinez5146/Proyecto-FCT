@@ -33,7 +33,7 @@ public class User {
 	
 	private String username;
 	
-	@NotBlank(message = "La contraseña no puede estar vacía")
+	@NotBlank(message = "The password cannot be empty")
 	private String pass;
 
 	@Enumerated(EnumType.STRING)

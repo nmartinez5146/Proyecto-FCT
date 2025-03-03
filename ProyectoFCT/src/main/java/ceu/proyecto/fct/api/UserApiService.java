@@ -42,17 +42,17 @@ public class UserApiService {
 	@GetMapping
 	@Operation(summary = "Login", description = "Logs in a user using their username and password.")
 	public ResponseEntity<?> login(@RequestParam String username, @RequestParam String pass)
-	        throws UserException, WrongUserException, IncorrectDataException {
-	    
-	    User user = service.login(username, pass);
-	    
-	    if (user instanceof Student) {
-	        return ResponseEntity.ok((Student) user);
-	    } else if (user instanceof Mentor) {
-	        return ResponseEntity.ok((Mentor) user);
-	    } else {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user role");
-	    }
+			throws UserException, WrongUserException, IncorrectDataException {
+
+		User user = service.login(username, pass);
+
+		if (user instanceof Student) {
+			return ResponseEntity.ok((Student) user);
+		} else if (user instanceof Mentor) {
+			return ResponseEntity.ok((Mentor) user);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user role");
+		}
 	}
 
 	@PutMapping
@@ -86,7 +86,8 @@ public class UserApiService {
 
 	@PostMapping
 	@Operation(summary = "Create record", description = "Creates a record based on the given data.")
-	public void createRecord(@RequestParam UUID userUUID, @RequestBody @Valid PracticeRecord practiceRecord) throws UserException, IncorrectDataException {
+	public void createRecord(@RequestParam UUID userUUID, @RequestBody @Valid PracticeRecord practiceRecord)
+			throws UserException, IncorrectDataException {
 		service.createRecord(userUUID, practiceRecord);
 	}
 
