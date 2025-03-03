@@ -167,6 +167,7 @@ public class ServiceImp implements Service {
 				return (date1 == null || !recordDate.isBefore(date1)) && (date2 == null || !recordDate.isAfter(date2));
 			}).map(record -> {
 				PracticeRecord fullRecord = new PracticeRecord();
+				fullRecord.setId(record.getId());
 				fullRecord.setAssociatedDate(record.getAssociatedDate());
 				fullRecord.setHours(record.getHours());
 				fullRecord.setDescription(record.getDescription());
@@ -175,7 +176,7 @@ public class ServiceImp implements Service {
 
 			return filteredRecords;
 		} catch (DataAccessException e) {
-			log.error("Data Base Error");
+			log.error("Data Base Error: ", e.getMessage());
 			throw new UserException("Data Base Error", e);
 		}
 	}

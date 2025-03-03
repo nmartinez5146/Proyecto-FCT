@@ -111,7 +111,7 @@ public class Test {
         PracticeRecord practiceRecord = new PracticeRecord();
         practiceRecord.setAssociatedStudent(student);
         practiceRecord.setAssociatedDate(practiceDate);
-        practiceRecord.setHours(5);
+        practiceRecord.setHours(5.0);
         practiceRecord.setDescription("Práctica sobre desarrollo web en Java");
 
         recordRepository.save(practiceRecord);
