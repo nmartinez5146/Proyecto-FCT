@@ -22,23 +22,23 @@ public class Company {
 	@GeneratedValue
 	@JdbcTypeCode(java.sql.Types.VARCHAR)
 	private UUID id;
-	
+
 	@Size(max = 100)
 	private String name;
-	
+
 	@Size(max = 100)
 	private String mentorName;
-	
+
 	@Size(max = 100)
 	@Email
 	private String mentorEmail;
-	
+
 	@Size(max = 9)
-	@Pattern(regexp = "^[0-9]*$", message = "El teléfono solo puede contener números")
+	@Pattern(regexp = "^[0-9]*$", message = "The phone can only contain numbers")
 	private String mentorPhone;
-	
+
 	private boolean active;
-	
+
 	@OneToMany(mappedBy = "company")
 	private List<Student> students;
 

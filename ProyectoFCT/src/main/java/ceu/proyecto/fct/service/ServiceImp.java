@@ -27,7 +27,7 @@ public class ServiceImp implements Service {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private StudentRepository studentRepository;
 
@@ -61,22 +61,21 @@ public class ServiceImp implements Service {
 			}
 
 			log.info("Login successful for user: {}", username);
-			
-			
-			if (user instanceof Student) {
-	            Student student = (Student) user;
-	            Hibernate.initialize(student.getCompany());
-	            Hibernate.initialize(student.getMentor());
-	            return student;
-	        }
 
-	        if (user instanceof Mentor) {
-	            Mentor mentor = (Mentor) user;
-	            Hibernate.initialize(mentor.getStudents());
-	            return mentor;
-	        }
-	        
-	        log.info("User is not instance of any Student or Mentor");
+			if (user instanceof Student) {
+				Student student = (Student) user;
+				Hibernate.initialize(student.getCompany());
+				Hibernate.initialize(student.getMentor());
+				return student;
+			}
+
+			if (user instanceof Mentor) {
+				Mentor mentor = (Mentor) user;
+				Hibernate.initialize(mentor.getStudents());
+				return mentor;
+			}
+
+			log.info("User is not instance of any Student or Mentor");
 			return user;
 		} catch (DataAccessException e) {
 			log.error("Data Base Error", e);
@@ -118,45 +117,41 @@ public class ServiceImp implements Service {
 
 	@Override
 	public User showUser(UUID userID) throws UserException, WrongUserException {
-	    try {
-	        // Buscar el usuario por ID
-	        Optional<User> userOptional = userRepository.findById(userID);
+		try {
+			Optional<User> userOptional = userRepository.findById(userID);
 
-	        // Verificar si el usuario existe
-	        if (userOptional.isEmpty()) {
-	            log.error("User not found with ID: {}", userID);
-	            throw new WrongUserException("User not found.");
-	        }
+			if (userOptional.isEmpty()) {
+				log.error("User not found with ID: {}", userID);
+				throw new WrongUserException("User not found.");
+			}
 
-	        // Obtener el usuario del Optional
-	        User user = userOptional.get();
-	        log.info("Showing user details: {}", user);
-	        return user;
-	    } catch (DataAccessException e) {
-	        log.error("Database error while fetching user with ID: {}", userID, e);
-	        throw new UserException("Database error", e);
-	    }
+			User user = userOptional.get();
+			log.info("Showing user details: {}", user);
+			return user;
+		} catch (DataAccessException e) {
+			log.error("Database error while fetching user with ID: {}", userID, e);
+			throw new UserException("Database error", e);
+		}
 	}
 
 	@Override
 	public List<PracticeRecord> consultAllRecords(UUID userUUID, LocalDate date1, LocalDate date2, String stateDate)
 			throws UserException, WrongUserException {
 		try {
-			
+
 			Optional<User> userOp = userRepository.findById(userUUID);
-			
+
 			log.info("Consulting all records for userUUID: {}", userUUID);
 
 			if (!userOp.isPresent()) {
 				log.error("User not found");
 				throw new WrongUserException("User not found.");
 			}
-			
+
 			if (!studentRepository.findById(userUUID).isPresent()) {
 				log.error("User has no associated student ID");
 				throw new UserException("User has no associated student ID.");
 			}
-			
 
 			log.info("Fetching records for student ID: {}", userUUID);
 
@@ -204,7 +199,8 @@ public class ServiceImp implements Service {
 	}
 
 	@Override
-	public void createRecord(UUID userUUID, PracticeRecord practiceRecord) throws UserException, IncorrectDataException {
+	public void createRecord(UUID userUUID, PracticeRecord practiceRecord)
+			throws UserException, IncorrectDataException {
 		try {
 
 			log.info("Creating new record: {}", practiceRecord);
@@ -214,17 +210,17 @@ public class ServiceImp implements Service {
 				throw new IncorrectDataException("Record cannot be null.");
 			}
 			Optional<Student> student = studentRepository.findById(userUUID);
-			
+
 			if (!student.isPresent()) {
 				log.error("User is not present");
 				throw new IncorrectDataException("User is not present");
 			}
-			
+
 			practiceRecord.setAssociatedStudent(student.get());
 			System.out.println(practiceRecord);
 			System.out.println(practiceRecord.getAssociatedStudent());
 			System.out.println(practiceRecord.getAssociatedDate());
-			
+
 			if (practiceRecord.getAssociatedStudent() == null || practiceRecord.getAssociatedDate() == null) {
 				log.error("Record must be associated with a student and a date");
 				throw new IncorrectDataException("Record must be associated with a student and a date.");
